@@ -239,6 +239,12 @@ def append_csv_to_sql_table(tbl, csv, bind=None, **kwargs):
 
 
 class NanIsNotNullFormatter(CSVFormatter):
+    def __init__(self, obj, path_or_buf, **kwargs):
+        quoting = csv.QUOTE_ALL
+        super(NanIsNotNullFormatter, self).__init__(
+            obj, path_or_buf=path_or_buf, quoting=quoting, **kwargs
+        )
+
     def _save_chunk(self, start_i, end_i):
 
         data_index = self.data_index
