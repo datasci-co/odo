@@ -235,7 +235,11 @@ def append_csv_to_sql_table(tbl, csv, bind=None, **kwargs):
     if dialect == 'postgresql':
         with bind.begin() as c:
             with csv.open() as f:
-                c.connection.cursor().copy_expert(literal_compile(stmt), f)
+                try:
+                    c.connection.cursor().copy_expert(literal_compile(stmt), f)
+                except:
+                    with open('failed_checkpointing.csv') as f2:
+                        f2.write(open(csv.path).read())
     else:
         with bind.begin() as conn:
             conn.execute(stmt)
