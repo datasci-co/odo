@@ -239,10 +239,12 @@ def append_csv_to_sql_table(tbl, csv, bind=None, **kwargs):
                     c.connection.cursor().copy_expert(literal_compile(stmt), f)
                 except:
                     with open('/mnt/databazaar_debug/failed_checkpointing.csv',
-                              'wb') as f2:
+                              'w') as f2:
                         csv._buffer.seek(0)
                         import shutil
-                        shutil.copyfileobj(csv._buffer, f2)
+                        for line in csv._buffer:
+                            f2.writelines(line)
+                        f2.close()
     else:
         with bind.begin() as conn:
             conn.execute(stmt)
