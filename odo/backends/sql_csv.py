@@ -240,7 +240,7 @@ def append_csv_to_sql_table(tbl, csv, bind=None, **kwargs):
                 except:
                     with open('/mnt/databazaar_debug/failed_checkpointing.csv',
                               'w',
-                              encoding='utf-32') as f2:
+                              encoding='latin1') as f2:
                         csv._buffer.seek(0)
                         import shutil
                         shutil.copyfileobj(csv._buffer, f2)
